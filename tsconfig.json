@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+      "target": "es5",
+      "module": "commonjs",
+      "declaration": true, // generates the respective TypeScript definitions files
+      "outDir": "dist",
+      "strict": true
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

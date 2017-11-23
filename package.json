@@ -1,0 +1,17 @@
+{
+  "name": "graph-lib",
+  "version": "0.1.0",
+  "description": "A graph lib based on graphlib and write in typescript",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ryannz",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.6.1"
+  }
+}
