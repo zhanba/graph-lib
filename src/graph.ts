@@ -39,7 +39,7 @@ export interface EdgeObjs {
 }
 
 export interface Edges {
-  [v: string]: EdgeLabels
+  [v: string]: EdgeObj
 }
 
 export interface DefaultLabelFn {
@@ -101,7 +101,6 @@ class Graph {
   edgeObjs: EdgeObjs;
 
   // e -> label
-  // TODO
   edgeLabels: EdgeLabels;
 
   /* Number of nodes in the graph. Should only be changed by the implementation. */
@@ -139,11 +138,11 @@ class Graph {
   }
 
   sources(): string[] {
-    return this.nodesLabel().filter(v => isEmpty(this.in[v]))
+    return this.nodes().filter(v => isEmpty(this.in[v]))
   }
 
   sinks(): string[] {
-    return this.nodesLabel().filter(v => isEmpty(this.out[v]))
+    return this.nodes().filter(v => isEmpty(this.out[v]))
   }
 
   setNodes(vs: string[], value: LabelValue): Graph {
@@ -193,7 +192,7 @@ class Graph {
 
   removeNode(v: string): Graph {
     if (this.hasNode(v)) {
-      let removeEdge = (e: Edge) => {this.removeEdge(this.edgeObjs[e])}
+      let removeEdge = (e: EdgeObj) => {this.removeEdge(this.edgeObjs[e])}
       delete this.nodesObj[v]
       if (this.compound) {
         this.removeFromParentsChildList(v);
@@ -261,6 +260,7 @@ class Graph {
     } else if (this.hasNode(v)) {
       return [];
     }
+    return [];
   }
 
   predecessors(v: string): string[] {
@@ -268,7 +268,7 @@ class Graph {
     if (predsV) {
       return Object.keys(predsV);
     }
-    return []
+    return [];
   }
 
   successors(v: string): string[] {
@@ -333,12 +333,21 @@ class Graph {
     return this.edgeCountNumber;
   }
 
-  edges(): Edge[] {
+  edges(): EdgeObj[] {
     return Object.values(this.edgeObjs);
   }
 
-  setPath(vs: string[], value) {
-    // TODO
+  setPath(vs: string[], value?: LabelValue): Graph {
+    const args = arguments;
+    vs.reduce((v, w) => {
+      if (args.length > 1) {
+        this.setEdge(v, w, value);
+      } else {
+        this.setEdge(v, w);
+      }
+      return w;
+    });
+    return this;
   }
 
   /*
@@ -451,7 +460,7 @@ class Graph {
     return this;
   }
 
-  inEdges(v: string, u?: string) {
+  inEdges(v: string, u?: string): EdgeObj[] {
     const inV = this.in[v];
     if (inV) {
       const edges = Object.values(inV);
@@ -463,7 +472,7 @@ class Graph {
     return [];
   }
 
-  outEdges(v: string, w?: string) {
+  outEdges(v: string, w?: string): EdgeObj[] {
     const outV = this.out[v];
     if (outV) {
       const edges = Object.values(outV);
@@ -475,7 +484,7 @@ class Graph {
     return [];
   }
 
-  nodeEdges(v: string, w:string): {
+  nodeEdges(v: string, w:string): EdgeObj[] {
     const inEdges = this.inEdges(v, w);
     if (inEdges) {
       return inEdges.concat(this.outEdges(v, w))
