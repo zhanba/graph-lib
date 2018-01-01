@@ -29,6 +29,7 @@ export interface EdgeLabels {
 }
 
 export interface EdgeObj {
+  [key: string]: string | undefined,
   v: string,
   w: string,
   name?: string
@@ -38,10 +39,6 @@ export interface EdgeObjs {
   [e: string]: EdgeObj
 }
 
-export interface Edges {
-  [v: string]: EdgeObj
-}
-
 export interface DefaultLabelFn {
   (v: any): LabelValue
 }
@@ -49,12 +46,6 @@ export interface DefaultLabelFn {
 export interface DefaultEdgeLabelFn {
   (v: string, w: string, name: string): LabelValue
 }
-
-// interface GraphInterface {
-//   directed: boolean,
-//   multigraph: boolean,
-//   compound: boolean
-// }
 
 class Graph {
   readonly directed: boolean;
@@ -86,13 +77,13 @@ class Graph {
   // this._children[GRAPH_NODE] = {};
 
   // v -> edgeObj
-  in: Edges;
+  in: EdgeObjs;
 
   // u -> v -> Number
   preds: NodeCount;
 
   // v -> edgeObj
-  out: Edges;
+  out: EdgeObjs;
 
   // v -> w -> Number
   sucs: NodeCount;
@@ -123,7 +114,8 @@ class Graph {
   /* === Node functions ========== */
   setDefaultNodeLabel(newDefault: LabelValue | DefaultLabelFn): Graph {
     if (typeof newDefault !== 'function') {
-      newDefault = () => newDefault;
+      this.defaultNodeLabelFn = () => newDefault;
+      return this;
     }
     this.defaultNodeLabelFn = newDefault;
     return this;
