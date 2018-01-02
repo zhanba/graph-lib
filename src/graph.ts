@@ -39,6 +39,20 @@ export interface EdgeObjs {
   [e: string]: EdgeObj
 }
 
+export interface EdgeObjsObj {
+  [v: string]: EdgeObjs
+}
+
+export interface ParentObjs {
+  [v: string]: string
+}
+
+export interface ChildrenObjs {
+  [v: string]: {
+    [e: string]: boolean
+  }
+}
+
 export interface DefaultLabelFn {
   (v: any): LabelValue
 }
@@ -70,20 +84,20 @@ class Graph {
   nodesObj: Nodes;
 
   // v -> parent
-  parentObj?: Graph;
+  parentObj: ParentObjs;
 
   // v -> children
-  childrenObj?: Graph;
+  childrenObj: ChildrenObjs;
   // this._children[GRAPH_NODE] = {};
 
   // v -> edgeObj
-  in: EdgeObjs;
+  in: EdgeObjsObj;
 
   // u -> v -> Number
   preds: NodeCount;
 
   // v -> edgeObj
-  out: EdgeObjs;
+  out: EdgeObjsObj;
 
   // v -> w -> Number
   sucs: NodeCount;
@@ -184,19 +198,19 @@ class Graph {
 
   removeNode(v: string): Graph {
     if (this.hasNode(v)) {
-      let removeEdge = (e: EdgeObj) => {this.removeEdge(this.edgeObjs[e])}
+      let removeEdge = (e: string) => {this.removeEdge(this.edgeObjs[e])}
       delete this.nodesObj[v]
       if (this.compound) {
         this.removeFromParentsChildList(v);
         delete this.parentObj[v];
-        this.childrenObj[v].forEach(child => this.setParent(child));
+        this.children(v).forEach(child => this.setParent(child));
         delete this.childrenObj[v];
       }
 
-      this.in[v].forEach(removeEdge);
+      Object.keys(this.in[v]).forEach(removeEdge);
       delete this.in[v];
       delete this.preds[v];
-      this.out[v].forEach(removeEdge);
+      Object.keys(this.out[v]).forEach(removeEdge);
       delete this.out[v];
       delete this.sucs[v];
       --this.nodeCountNumber;
@@ -204,21 +218,23 @@ class Graph {
     return this;
   }
 
-  setParent(v: string, parent = GRAPH_NODE): Graph {
+  setParent(v: string, parent?: string): Graph {
     if (!this.compound) {
       throw new Error('Cannot set parent in a non-compound graph')
     }
 
-    // Coerce parent to string
-    parent += "";
-
-    for (let ancestor = parent; ancestor !== undefined; ancestor = this.parentObj(ancestor)) {
-      if (ancestor === v) {
-        throw new Error(`Setting ${parent} as parent of ${v} would create a cycle`);
+    if (parent === undefined) {
+      parent = GRAPH_NODE;
+    } else {
+      // Coerce parent to string
+      parent += "";
+      for (let ancestor: string|undefined = parent; ancestor !== undefined; ancestor = this.parent(ancestor)) {
+        if (ancestor === v) {
+          throw new Error(`Setting ${parent} as parent of ${v} would create a cycle`);
+        }
       }
+      this.setNode(parent);
     }
-
-    this.setNode(parent);
 
     this.setNode(v);
     this.removeFromParentsChildList(v);
@@ -299,25 +315,45 @@ class Graph {
 
     copy.setGraph(this.graph());
 
-    for (const v in this.nodesObj) {
-      if (this.nodesObj.hasOwnProperty(v)) {
-        const value = this.nodesObj[v];
-        if (filter(v)) {
-          copy.setNode(v, value)
-        }
+    for (let [v, value] of Object.entries(this.nodesObj)) {
+      if (filter(v)) {
+        copy.setNode(v, value);
       }
     }
 
-    this.edgeObjs
-    // TODO
+    for (let [v, edgeObject] of Object.entries(this.edgeObjs)) {
+      if (copy.hasNode(edgeObject.v) && copy.hasNode(edgeObject.w)) {
+        copy.setEdge(edgeObject, this.edge(edgeObject));
+      }
+    }
+
+    const self = this;
+    const parents: { [v: string]: string|undefined } = {};
+    function findParent(v: string): string|undefined {
+      const parent = self.parent(v);
+      if (parent === undefined || copy.hasNode(parent)) {
+        parents[v] = parent;
+        return parent;
+      } else if (parent in parents) {
+        return parents[parent];
+      } else {
+        return findParent(parent);
+      }
+    }
+
+    if (this.compound) {
+      copy.nodes().forEach(v => copy.setParent(v, findParent(v)))
+    }
+    return copy;
   }
 
   /* === Edge functions ========== */
   setDefaultEdgeLabel(newDefault: LabelValue | DefaultLabelFn) {
     if (typeof newDefault !== 'function') {
-      newDefault = () => newDefault;
+      this.defaultEdgeLabelFn = () => newDefault;
+    } else {
+      this.defaultEdgeLabelFn = newDefault
     }
-    this.defaultEdgeLabelFn = newDefault
     return this;
   }
 
