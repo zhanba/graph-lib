@@ -7,11 +7,13 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc",
+    "lint": "",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "ryannz",
   "license": "MIT",
   "devDependencies": {
+    "tslint": "^5.8.0",
     "typescript": "^2.6.1"
   },
   "dependencies": {

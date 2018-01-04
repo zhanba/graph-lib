@@ -1,42 +1,42 @@
-import { Graph, Nodes, EdgeObj, LabelValue } from './graph';
+import { Graph, IEdgeObj, INodes, LabelValue } from "./graph";
 
-interface NodeObj {
-  v: string,
-  value: LabelValue,
-  parent: string|undefined
+interface INodeObj {
+  v: string;
+  value: LabelValue;
+  parent: string|undefined;
 }
 
-interface JsonObj {
+interface IJsonObj {
   options: {
     directed: boolean,
     multigraph: boolean,
-    compound: boolean
-  },
-  nodes: object[],
-  edges: object[],
-  value: Graph
+    compound: boolean,
+  };
+  nodes: object[];
+  edges: object[];
+  value: Graph;
 }
 
 function write(g: Graph) {
   const json = {
+    edges: writeEdges(g),
+    nodes: writeNodes(g),
     options: {
+      compound: g.compound,
       directed: g.directed,
       multigraph: g.multigraph,
-      compound: g.compound,
     },
-    nodes: writeNodes(g),
-    edges: writeEdges(g),
-    value: Object.assign({}, g.graph())
+    value: Object.assign({}, g.graph()),
   };
 
   return json;
 }
 
 function writeNodes(g: Graph) {
-  return g.nodes().map(v => {
+  return g.nodes().map((v) => {
     const nodeValue = g.node(v);
     const parent = g.parent(v);
-    const node = { v: v }
+    const node = { v };
     if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
@@ -66,18 +66,18 @@ function writeEdges(g: Graph) {
 
 function read(json) {
   const g = new Graph(json.options).setGraph(json.value);
-  json.nodes.forEach(entry => {
+  json.nodes.forEach((entry) => {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
   });
-  json.edges.forEach(entry => {
-    g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value)
+  json.edges.forEach((entry) => {
+    g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
 }
 
 export {
   write,
-  read
-}
+  read,
+};
