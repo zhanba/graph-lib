@@ -43,7 +43,7 @@ function writeNodes(g: Graph): INodeObj[] {
   return g.nodes().map((v) => {
     const nodeValue = g.node(v);
     const parent = g.parent(v);
-    const node: INodeObj = { v: v, value: undefined, parent: undefined };
+    const node: INodeObj = { v, value: undefined, parent: undefined };
     if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
@@ -55,13 +55,13 @@ function writeNodes(g: Graph): INodeObj[] {
 }
 
 function writeEdges(g: Graph): IEdgeObj[] {
-  return g.edges().map(e => {
+  return g.edges().map((e) => {
     const edgeValue = g.edge(e);
     const edge: IEdgeObj = {
       v: e.v,
       w: e.w,
       name: undefined,
-      value: undefined
+      value: undefined,
     };
     if (e.name !== undefined) {
       edge.name = e.name;

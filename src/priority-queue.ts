@@ -1,12 +1,11 @@
 export interface IKeyIndices {
-  [key: string]: number
+  [key: string]: number;
 }
 
 export interface IQueueItem {
   key: string;
   priority: number;
 }
-
 
 /**
  * A min-priority queue data structure. This algorithm is derived from Cormen,
@@ -16,33 +15,33 @@ export interface IQueueItem {
  * have its priority decreased in O(log n) time.
  */
 class PriortyQueue {
-  private _arr: IQueueItem[];
-  private _keyIndices: IKeyIndices = {};
+  private arr: IQueueItem[];
+  private keyIndices: IKeyIndices = {};
 
   constructor() {
-    this._arr = []
-    this._keyIndices = {}
+    this.arr = [];
+    this.keyIndices = {};
   }
 
   /**
    * Returns the number of elements in the queue. Takes `O(1)` time.
    */
-  size(): number {
-    return this._arr.length;
+  public size(): number {
+    return this.arr.length;
   }
 
   /**
    * Returns the keys that are in the queue. Takes `O(n)` time.
    */
-  keys(): string[] {
-    return this._arr.map(x => x.key);
+  public keys(): string[] {
+    return this.arr.map((x) => x.key);
   }
 
   /**
    * Returns `true` if **key** is in the queue and `false` if not.
    */
-  has(key: string): boolean {
-    return Reflect.has(this._keyIndices, key)
+  public has(key: string): boolean {
+    return Reflect.has(this.keyIndices, key);
   }
 
   /**
@@ -51,10 +50,10 @@ class PriortyQueue {
    *
    * @param {Object} key
    */
-  priority(key: string): number|undefined {
-    const index = this._keyIndices[key];
+  public priority(key: string): number|undefined {
+    const index = this.keyIndices[key];
     if (index !== undefined) {
-      return this._arr[index].priority;
+      return this.arr[index].priority;
     }
   }
 
@@ -62,11 +61,11 @@ class PriortyQueue {
    * Returns the key for the minimum element in this queue. If the queue is
    * empty this function throws an Error. Takes `O(1)` time.
    */
-  min() {
+  public min() {
     if (this.size() === 0) {
-      throw new Error('Queue underflow')
+      throw new Error("Queue underflow");
     }
-    return this._arr[0].key;
+    return this.arr[0].key;
   }
 
   /**
@@ -77,11 +76,11 @@ class PriortyQueue {
    * @param {Object} key the key to add
    * @param {Number} priority the initial priority for the key
    */
-  add(key: string, priority: number): boolean {
+  public add(key: string, priority: number): boolean {
     key = String(key);
-    if (!Reflect.has(this._keyIndices, key)) {
+    if (!Reflect.has(this.keyIndices, key)) {
       const index = this.size();
-      this._arr.push({key, priority});
+      this.arr.push({key, priority});
       this._decrease(index);
       return true;
     }
@@ -91,16 +90,16 @@ class PriortyQueue {
   /**
    * Removes and returns the smallest key in the queue. Takes `O(log n)` time.
    */
-  removeMin(): string|undefined {
+  public removeMin(): string|undefined {
     if (this.size() === 0) {
-      throw new Error('Queue underflow')
+      throw new Error("Queue underflow");
     }
     this._swap(0, this.size() - 1);
-    const min = this._arr.pop();
+    const min = this.arr.pop();
     if (min) {
-      delete this._keyIndices[min.key];
+      delete this.keyIndices[min.key];
       this._heapify(0);
-      return min.key
+      return min.key;
     }
   }
 
@@ -111,20 +110,20 @@ class PriortyQueue {
    * @param {Object} key the key for which to raise priority
    * @param {Number} priority the new priority for the key
    */
-  decrease(key: string, priority: number): void {
-    const index = this._keyIndices[key];
-    if (priority > this._arr[index].priority) {
+  public decrease(key: string, priority: number): void {
+    const index = this.keyIndices[key];
+    if (priority > this.arr[index].priority) {
       throw new Error("New priority is greater than current priority. " +
-        "Key: " + key + " Old: " + this._arr[index].priority + " New: " + priority);
+        "Key: " + key + " Old: " + this.arr[index].priority + " New: " + priority);
     }
-    this._arr[index].priority = priority;
+    this.arr[index].priority = priority;
     this._decrease(index);
   }
 
-  _heapify(i: number) {
-    const arr = this._arr;
-    let l = 2 * i;
-    let r = l + 1;
+  private _heapify(i: number): void {
+    const arr = this.arr;
+    const l = 2 * i;
+    const r = l + 1;
     let largest = i;
     if (l < arr.length) {
       largest = arr[l].priority < arr[largest].priority ? l : largest;
@@ -138,23 +137,24 @@ class PriortyQueue {
     }
   }
 
-  _decrease(index: number) {
-    const arr = this._arr;
+  private _decrease(index: number): void {
+    const arr = this.arr;
     const priority = arr[index].priority;
     let parent;
     while (index !== 0) {
-      parent = index >> 1;
+      // parent = index >> 1;
+      parent = Math.floor(index / 2);
       if (arr[parent].priority < priority) {
         break;
       }
       this._swap(index, parent);
-      index = parent
+      index = parent;
     }
   }
 
-  _swap(i: number, j: number) {
-    const arr = this._arr;
-    const keyIndices = this._keyIndices;
+  private _swap(i: number, j: number): void {
+    const arr = this.arr;
+    const keyIndices = this.keyIndices;
     const origArrI = arr[i];
     const origArrJ = arr[j];
     arr[i] = origArrJ;
@@ -164,4 +164,4 @@ class PriortyQueue {
   }
 }
 
-export {PriortyQueue}
+export {PriortyQueue};
