@@ -1,24 +1,31 @@
-import { Graph, IEdgeObj, INodes, LabelValue } from "./graph";
+import { Graph, LabelValue } from "./graph";
 
-interface INodeObj {
+export interface INodeObj {
   v: string;
   value: LabelValue;
   parent: string|undefined;
 }
 
-interface IJsonObj {
+export interface IEdgeObj {
+  v: string;
+  w: string;
+  name: string|undefined;
+  value: LabelValue;
+}
+
+export interface IJsonObj {
   options: {
     directed: boolean,
     multigraph: boolean,
     compound: boolean,
   };
-  nodes: object[];
-  edges: object[];
+  nodes: INodeObj[];
+  edges: IEdgeObj[];
   value: Graph;
 }
 
-function write(g: Graph) {
-  const json = {
+function write(g: Graph): IJsonObj {
+  const json: IJsonObj = {
     edges: writeEdges(g),
     nodes: writeNodes(g),
     options: {
@@ -32,11 +39,11 @@ function write(g: Graph) {
   return json;
 }
 
-function writeNodes(g: Graph) {
+function writeNodes(g: Graph): INodeObj[] {
   return g.nodes().map((v) => {
     const nodeValue = g.node(v);
     const parent = g.parent(v);
-    const node = { v };
+    const node: INodeObj = { v: v, value: undefined, parent: undefined };
     if (nodeValue !== undefined) {
       node.value = nodeValue;
     }
@@ -47,12 +54,14 @@ function writeNodes(g: Graph) {
   });
 }
 
-function writeEdges(g: Graph) {
-  return g.edges().forEach(e => {
+function writeEdges(g: Graph): IEdgeObj[] {
+  return g.edges().map(e => {
     const edgeValue = g.edge(e);
-    const edge = {
+    const edge: IEdgeObj = {
       v: e.v,
       w: e.w,
+      name: undefined,
+      value: undefined
     };
     if (e.name !== undefined) {
       edge.name = e.name;
@@ -64,7 +73,7 @@ function writeEdges(g: Graph) {
   });
 }
 
-function read(json) {
+function read(json: IJsonObj): Graph {
   const g = new Graph(json.options).setGraph(json.value);
   json.nodes.forEach((entry) => {
     g.setNode(entry.v, entry.value);
@@ -75,6 +84,7 @@ function read(json) {
   json.edges.forEach((entry) => {
     g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
+  return g;
 }
 
 export {
