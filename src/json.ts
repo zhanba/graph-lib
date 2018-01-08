@@ -58,10 +58,10 @@ function writeEdges(g: Graph): IEdgeObj[] {
   return g.edges().map((e) => {
     const edgeValue = g.edge(e);
     const edge: IEdgeObj = {
-      v: e.v,
-      w: e.w,
       name: undefined,
+      v: e.v,
       value: undefined,
+      w: e.w,
     };
     if (e.name !== undefined) {
       edge.name = e.name;
