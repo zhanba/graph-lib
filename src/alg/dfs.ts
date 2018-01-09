@@ -8,7 +8,7 @@ import { Graph } from "../graph";
  *
  * Order must be one of "pre" or "post".
  */
-enum Order { pre = "pre", post = "post"}
+export enum Order { pre = "pre", post = "post"}
 
 function dfs(g: Graph, vs: string[]|string, order: Order) {
   if (!Array.isArray(vs)) {
@@ -26,6 +26,7 @@ function dfs(g: Graph, vs: string[]|string, order: Order) {
 
     doDfs(g, v, (order === "post"), visited, navigation, acc);
   });
+  return acc;
 }
 
 function doDfs(g: Graph, v: string, postOrder: boolean,

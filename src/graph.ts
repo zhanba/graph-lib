@@ -104,10 +104,10 @@ class Graph {
   /* Number of edges in the graph. Should only be changed by the implementation. */
   private edgeCountNumber = 0;
 
-  constructor(opt: IGraphConstructor) {
-    this.directed = opt.directed ? opt.directed : true;
-    this.multigraph = opt.multigraph ? opt.multigraph : false;
-    this.compound = opt.compound ? opt.compound : false;
+  constructor(opt?: IGraphConstructor) {
+    this.directed = (opt && opt.directed) ? opt.directed : true;
+    this.multigraph = (opt && opt.multigraph) ? opt.multigraph : false;
+    this.compound = (opt && opt.compound) ? opt.compound : false;
   }
   /* === Graph functions ========= */
   public setGraph(label: LabelValue): Graph {
@@ -455,7 +455,7 @@ class Graph {
     return this.edgeLabels[e];
   }
 
-  public hasEdge(v: string, w: string, name: string): boolean;
+  public hasEdge(v: string, w: string, name?: string): boolean;
   public hasEdge(edgeObj: IEdgeObj): boolean;
   public hasEdge(v: any): any {
     const e = arguments.length === 1
@@ -509,7 +509,7 @@ class Graph {
     return [];
   }
 
-  public nodeEdges(v: string, w: string): IEdgeObj[] {
+  public nodeEdges(v: string, w?: string): IEdgeObj[] {
     const inEdges = this.inEdges(v, w);
     if (inEdges) {
       return inEdges.concat(this.outEdges(v, w));
