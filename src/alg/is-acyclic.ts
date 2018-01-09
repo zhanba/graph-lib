@@ -1,6 +1,7 @@
+import { Graph } from "../graph";
 import { CycleException, topsort } from "./topsort";
 
-function isAcyclic(g) {
+function isAcyclic(g: Graph) {
   try {
     topsort(g);
   } catch (e) {

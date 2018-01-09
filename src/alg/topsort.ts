@@ -3,7 +3,7 @@ import { Graph } from "../graph";
 function topsort(g: Graph) {
   const visited = {};
   const stack = [];
-  const results = [];
+  const results: string[] = [];
 
   function visit(node: string) {
     if (Reflect.has(stack, node)) {
