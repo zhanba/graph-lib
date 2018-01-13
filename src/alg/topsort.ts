@@ -1,8 +1,11 @@
 import { Graph } from "../graph";
 
+// tslint:disable-next-line:no-empty
+class CycleException {}
+
 function topsort(g: Graph) {
-  const visited = {};
-  const stack = [];
+  const visited: { [node: string]: boolean } = {};
+  const stack: { [node: string]: boolean } = {};
   const results: string[] = [];
 
   function visit(node: string) {
@@ -27,8 +30,5 @@ function topsort(g: Graph) {
 
   return results;
 }
-
-// tslint:disable-next-line:no-empty
-function CycleException() {}
 
 export { topsort, CycleException };

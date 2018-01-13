@@ -1,10 +1,18 @@
 import { Graph } from "../graph";
 
+export interface IVisited {
+  [v: string]: {
+    index: number,
+    lowLink: number,
+    onStack: boolean,
+  };
+}
+
 function tarjan(g: Graph): string[][] {
   let index = 0;
   const stack: string[] = [];
   // node id -> { onStack, lowlink, index }
-  const visited: {} = {};
+  const visited: IVisited = {};
   const results: string[][] = [];
 
   function dfs(v: string) {
@@ -18,7 +26,7 @@ function tarjan(g: Graph): string[][] {
     g.successors(v).forEach((w) => {
       if (!Reflect.has(visited, w)) {
         dfs(w);
-        entry.lowLink = Math.min(entry.lowLink, visited[w].lowlink);
+        entry.lowLink = Math.min(entry.lowLink, visited[w].lowLink);
       } else if (visited[w].onStack) {
         entry.lowLink = Math.min(entry.lowLink, visited[w].index);
       }
@@ -26,9 +34,9 @@ function tarjan(g: Graph): string[][] {
 
     if (entry.lowLink === entry.index) {
       const cmpt: string[] = [];
-      let w;
+      let w: string;
       do {
-        w = stack.pop();
+        w = String(stack.pop());
         visited[w].onStack = false;
         cmpt.push(w);
       } while (v !== w);

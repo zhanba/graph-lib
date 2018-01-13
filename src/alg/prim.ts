@@ -4,9 +4,9 @@ import { IWeightFn } from "./dijkstra";
 
 function prim(g: Graph, weightFunc: IWeightFn) {
   const result = new Graph();
-  const parents = {};
+  const parents: { [w: string]: string } = {};
   const pq = new PriortyQueue();
-  let v;
+  let v: string;
 
   function updateNeighbors(edge: IEdgeObj) {
     const w = edge.v === v ? edge.w : edge.v;
@@ -34,7 +34,7 @@ function prim(g: Graph, weightFunc: IWeightFn) {
 
   let init = false;
   while (pq.size() > 0) {
-    v = pq.removeMin();
+    v = String(pq.removeMin());
     if (Reflect.has(parents, v)) {
       result.setEdge(v, parents[v]);
     } else if (init) {
