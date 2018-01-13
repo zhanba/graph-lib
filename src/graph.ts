@@ -145,7 +145,7 @@ class Graph {
     return this.nodes().filter((v) => isEmpty(this.out[v]));
   }
 
-  public setNodes(vs: string[], value: LabelValue): Graph {
+  public setNodes(vs: string[], value?: LabelValue): Graph {
     const args = arguments;
     vs.forEach((v) => {
       if (args.length > 1) {
@@ -446,7 +446,7 @@ class Graph {
     return this;
   }
 
-  public edge(v: string, w: string, name: string): LabelValue;
+  public edge(v: string, w: string, name?: string): LabelValue;
   public edge(edgeObj: IEdgeObj): LabelValue;
   public edge(v: any): any {
     const e = arguments.length === 1
@@ -464,7 +464,7 @@ class Graph {
     return Reflect.has(this.edgeLabels, e);
   }
 
-  public removeEdge(v: string, w: string, name: string): Graph;
+  public removeEdge(v: string, w: string, name?: string): Graph;
   public removeEdge(edgeObj: IEdgeObj): Graph;
   public removeEdge(v: any): any {
     const e = arguments.length === 1
