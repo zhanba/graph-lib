@@ -124,54 +124,54 @@ describe("Graph", () => {
     });
 
     test("preserves the directed option", () => {
-      g = new Graph({ directed: true });
-      expect(g.filterNodes(() => true).directed).toBe(true);
+      const g2 = new Graph({ directed: true });
+      expect(g2.filterNodes(() => true).directed).toBe(true);
 
-      g = new Graph({ directed: false });
-      expect(g.filterNodes(() => true).directed).toBe(false);
+      const g3 = new Graph({ directed: false });
+      expect(g3.filterNodes(() => true).directed).toBe(false);
     });
 
     test("preserves the multigraph option", () => {
-      g = new Graph({ multigraph: true });
-      expect(g.filterNodes(() => true).multigraph).toBe(true);
+      const g2 = new Graph({ multigraph: true });
+      expect(g2.filterNodes(() => true).multigraph).toBe(true);
 
-      g = new Graph({ multigraph: false });
-      expect(g.filterNodes(() => true).multigraph).toBe(false);
+      const g3 = new Graph({ multigraph: false });
+      expect(g3.filterNodes(() => true).multigraph).toBe(false);
     });
 
     test("preserves the compound option", () => {
-      g = new Graph({ compound: true });
-      expect(g.filterNodes(() => true).compound).toBe(true);
+      const g2 = new Graph({ compound: true });
+      expect(g2.filterNodes(() => true).compound).toBe(true);
 
-      g = new Graph({ compound: false });
-      expect(g.filterNodes(() => true).compound).toBe(false);
+      const g3 = new Graph({ compound: false });
+      expect(g3.filterNodes(() => true).compound).toBe(false);
     });
 
     test("includes subgraphs", () => {
-      g = new Graph({ compound: true });
-      g.setParent("a", "parent");
+      const g2 = new Graph({ compound: true });
+      g2.setParent("a", "parent");
 
-      const g2 = g.filterNodes(() => true);
-      expect(g2.parent("a")).toEqual("parent");
+      const g3 = g2.filterNodes(() => true);
+      expect(g3.parent("a")).toEqual("parent");
     });
 
     test("includes multi-level subgraphs", () => {
-      g = new Graph({ compound: true });
-      g.setParent("a", "parent");
-      g.setParent("parent", "root");
+      const g2 = new Graph({ compound: true });
+      g2.setParent("a", "parent");
+      g2.setParent("parent", "root");
 
-      const g2 = g.filterNodes(() => true);
-      expect(g2.parent("a")).toEqual("parent");
-      expect(g2.parent("parent")).toEqual("root");
+      const g3 = g2.filterNodes(() => true);
+      expect(g3.parent("a")).toEqual("parent");
+      expect(g3.parent("parent")).toEqual("root");
     });
 
     test("promotes a node to a higher subgraph if its parent is not included", () => {
-      g = new Graph({ compound: true });
-      g.setParent("a", "parent");
-      g.setParent("parent", "root");
+      const g2 = new Graph({ compound: true });
+      g2.setParent("a", "parent");
+      g2.setParent("parent", "root");
 
-      const g2 = g.filterNodes((v) => v !== "parent");
-      expect(g2.parent("a")).toEqual("root");
+      const g3 = g2.filterNodes((v) => v !== "parent");
+      expect(g3.parent("a")).toEqual("root");
     });
   });
 
@@ -392,9 +392,9 @@ describe("Graph", () => {
     test("uses the stringified form of the id", () => {
       g.setParent(2, 1);
       g.setParent(3, 2);
-      expect(g.parent(2)).equals("1");
-      expect(g.parent("2")).equals("1");
-      expect(g.parent(3)).equals("2");
+      expect(g.parent(2)).toEqual("1");
+      expect(g.parent("2")).toEqual("1");
+      expect(g.parent(3)).toEqual("2");
     });
 
     test("preserves the tree inconstiant", () => {
@@ -567,7 +567,7 @@ describe("Graph", () => {
     test("returns the keys for edges in the graph", () => {
       g.setEdge("a", "b");
       g.setEdge("b", "c");
-      expect(_.sortBy(g.edges()), ["v", "w"]).toEqual([
+      expect(_.sortBy(g.edges(), ["v", "w"])).toEqual([
         { v: "a", w: "b" },
         { v: "b", w: "c" },
       ]);
@@ -731,12 +731,12 @@ describe("Graph", () => {
     });
 
     test("can take a function that takes the edge's endpoints and name", () => {
-      const g = new Graph({ multigraph: true });
-      g.setDefaultEdgeLabel((v, w, name) => {
+      const g2 = new Graph({ multigraph: true });
+      g2.setDefaultEdgeLabel((v, w, name) => {
         return v + "-" + w + "-" + name + "-foo";
       });
-      g.setEdge({ v: "a", w: "b", name: "name"});
-      expect(g.edge("a", "b", "name")).toBe("a-b-name-foo");
+      g2.setEdge({ v: "a", w: "b", name: "name"});
+      expect(g2.edge("a", "b", "name")).toBe("a-b-name-foo");
     });
 
     test("does not set a default value for a multi-edge that already exists", () => {
