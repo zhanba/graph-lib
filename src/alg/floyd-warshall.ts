@@ -28,12 +28,14 @@ function runFloydWarshall(g: Graph, weighFn: IWeightFn, edgeFn: IEdgeFn) {
         results[v][w] = { distance: Number.POSITIVE_INFINITY };
       }
     });
-
-    edgeFn(v).forEach((edge) => {
-      const w = edge.v === v ? edge.w : edge.v;
-      const d = weighFn(edge);
-      results[v][w] = { distance: d, predecessor: v };
-    });
+    const res = edgeFn(v);
+    if (res !== undefined) {
+      res.forEach((edge) => {
+        const w = edge.v === v ? edge.w : edge.v;
+        const d = weighFn(edge);
+        results[v][w] = { distance: d, predecessor: v };
+      });
+    }
   });
 
   nodes.forEach((k) => {

@@ -16,7 +16,7 @@ export interface IDijkstraAllResult {
 
 export type IWeightFn = (edge: IEdgeObj) => number;
 
-export type IEdgeFn = (v: string) => IEdgeObj[];
+export type IEdgeFn = (v: string) => IEdgeObj[]|undefined;
 
 const DEFAULT_WEIGHT_FUNC = () => 1;
 
@@ -62,8 +62,10 @@ function runDijkstra(g: Graph, source: string,
       if (vEntry.distance === Number.POSITIVE_INFINITY) {
         break;
       }
-
-      edgeFn(v).forEach(updateNeighbors);
+      const res = edgeFn(v);
+      if (res !== undefined) {
+        res.forEach(updateNeighbors);
+      }
     }
   };
 

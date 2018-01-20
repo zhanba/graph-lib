@@ -8,8 +8,14 @@ function components(g: Graph) {
     if (Reflect.has(visited, v)) { return; }
     visited[v] = true;
     cmpt.push(v);
-    g.successors(v).forEach(dfs);
-    g.predecessors(v).forEach(dfs);
+    const succ = g.successors(v);
+    if (succ !== undefined) {
+      succ.forEach(dfs);
+    }
+    const pred = g.predecessors(v);
+    if (pred !== undefined) {
+      pred.forEach(dfs);
+    }
   }
 
   g.nodes().forEach((v) => {

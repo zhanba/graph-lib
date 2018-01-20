@@ -23,14 +23,17 @@ function tarjan(g: Graph): string[][] {
     };
     stack.push(v);
 
-    g.successors(v).forEach((w) => {
-      if (!Reflect.has(visited, w)) {
-        dfs(w);
-        entry.lowLink = Math.min(entry.lowLink, visited[w].lowLink);
-      } else if (visited[w].onStack) {
-        entry.lowLink = Math.min(entry.lowLink, visited[w].index);
-      }
-    });
+    const succ = g.successors(v);
+    if (succ !== undefined) {
+      succ.forEach((w) => {
+        if (!Reflect.has(visited, w)) {
+          dfs(w);
+          entry.lowLink = Math.min(entry.lowLink, visited[w].lowLink);
+        } else if (visited[w].onStack) {
+          entry.lowLink = Math.min(entry.lowLink, visited[w].index);
+        }
+      });
+    }
 
     if (entry.lowLink === entry.index) {
       const cmpt: string[] = [];

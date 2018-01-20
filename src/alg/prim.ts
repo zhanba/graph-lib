@@ -42,7 +42,10 @@ function prim(g: Graph, weightFunc: IWeightFn) {
     } else {
       init = true;
     }
-    g.nodeEdges(v).forEach(updateNeighbors);
+    const nodeEdges = g.nodeEdges(v);
+    if (nodeEdges !== undefined) {
+      nodeEdges.forEach(updateNeighbors);
+    }
   }
 
   return result;

@@ -16,7 +16,10 @@ function topsort(g: Graph) {
     if (!Reflect.has(visited, node)) {
       stack[node] = true;
       visited[node] = true;
-      g.predecessors(node).forEach(visit);
+      const pred = g.predecessors(node);
+      if (pred !== undefined) {
+        pred.forEach(visit);
+      }
       delete stack[node];
       results.push(node);
     }

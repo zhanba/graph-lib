@@ -1,9 +1,9 @@
-import { Graph, LabelValue } from "./graph";
+import { Graph, KeyValue, LabelValue } from "./graph";
 
 export interface INodeObj {
-  v: string;
+  v: KeyValue;
   value: LabelValue;
-  parent: string|undefined;
+  parent: KeyValue|undefined;
 }
 
 export interface IEdgeObj {
@@ -21,7 +21,7 @@ export interface IJsonObj {
   };
   nodes: INodeObj[];
   edges: IEdgeObj[];
-  value: Graph;
+  value: LabelValue;
 }
 
 function write(g: Graph): IJsonObj {
