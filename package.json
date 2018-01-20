@@ -22,19 +22,5 @@
   "dependencies": {
     "@types/lodash": "^4.14.91",
     "lodash": "^4.17.4"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }
