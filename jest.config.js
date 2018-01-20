@@ -10,5 +10,12 @@ module.exports = {
     "jsx",
     "json",
     "node"
+  ],
+  mapCoverage: true, // for ts
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.{ts,tsx}",
+    "!**/node_modules/**",
+    "!**/dist/**"
   ]
 };
