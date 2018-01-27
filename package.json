@@ -8,7 +8,8 @@
     "prepare": "npm run build",
     "build": "tsc",
     "lint": "",
-    "test": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "test": "jest",
+    "ci": "jest && cat ./coverage/lcov.info | coveralls"
   },
   "author": "ryannz",
   "license": "MIT",
