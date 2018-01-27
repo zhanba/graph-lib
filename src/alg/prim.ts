@@ -1,11 +1,11 @@
 import { Graph, IEdgeObj } from "../graph";
-import { PriortyQueue } from "../priority-queue";
+import { PriorityQueue } from "../priority-queue";
 import { IWeightFn } from "./dijkstra";
 
 function prim(g: Graph, weightFunc: IWeightFn) {
   const result = new Graph();
   const parents: { [w: string]: string } = {};
-  const pq = new PriortyQueue();
+  const pq = new PriorityQueue();
   let v: string;
 
   function updateNeighbors(edge: IEdgeObj) {

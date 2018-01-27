@@ -1,5 +1,5 @@
 import { Graph, IEdgeObj } from "../graph";
-import { PriortyQueue } from "../priority-queue";
+import { PriorityQueue } from "../priority-queue";
 
 export interface IEntry {
   [key: string]: number|string;
@@ -29,7 +29,7 @@ function runDijkstra(g: Graph, source: string,
                      weightFn: IWeightFn,
                      edgeFn: IEdgeFn) {
   const results: IDijkstraResult = {};
-  const pq = new PriortyQueue();
+  const pq = new PriorityQueue();
   let v: string = "";
   let vEntry: IEntry = {distance: 0};
 
@@ -51,9 +51,9 @@ function runDijkstra(g: Graph, source: string,
     }
 
     g.nodes().forEach((v2) => {
-      const distance2 = v === source ? 0 : Number.POSITIVE_INFINITY;
-      results[v] = { distance: distance2 };
-      pq.add(v, distance2);
+      const distance2 = v2 === source ? 0 : Number.POSITIVE_INFINITY;
+      results[v2] = { distance: distance2 };
+      pq.add(v2, distance2);
     });
 
     while (pq.size() > 0) {
@@ -72,7 +72,7 @@ function runDijkstra(g: Graph, source: string,
   return results;
 }
 
-function dijkstraAll(g: Graph, weightFn: IWeightFn, edgeFn: IEdgeFn): IDijkstraAllResult {
+function dijkstraAll(g: Graph, weightFn: IWeightFn, edgeFn?: IEdgeFn): IDijkstraAllResult {
   const res: IDijkstraAllResult = {};
   g.nodes().forEach((v) => {
     res[v] = dijkstra(g, v, weightFn, edgeFn);

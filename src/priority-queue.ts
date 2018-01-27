@@ -14,7 +14,7 @@ export interface IQueueItem {
  * the queue. Adding and removing elements takes O(log n) time. A key can
  * have its priority decreased in O(log n) time.
  */
-class PriortyQueue {
+class PriorityQueue {
   private arr: IQueueItem[];
   private keyIndices: IKeyIndices = {};
 
@@ -50,7 +50,7 @@ class PriortyQueue {
    *
    * @param {Object} key
    */
-  public priority(key: string): number|undefined {
+  public priority(key: any): number|undefined {
     const index = this.keyIndices[key];
     if (index !== undefined) {
       return this.arr[index].priority;
@@ -76,10 +76,11 @@ class PriortyQueue {
    * @param {Object} key the key to add
    * @param {Number} priority the initial priority for the key
    */
-  public add(key: string, priority: number): boolean {
+  public add(key: any, priority: number): boolean {
     key = String(key);
     if (!Reflect.has(this.keyIndices, key)) {
       const index = this.size();
+      this.keyIndices[key] = index;
       this.arr.push({key, priority});
       this._decrease(index);
       return true;
@@ -164,4 +165,4 @@ class PriortyQueue {
   }
 }
 
-export {PriortyQueue};
+export {PriorityQueue};
