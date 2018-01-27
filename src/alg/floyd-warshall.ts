@@ -12,11 +12,11 @@ export interface IResult {
 
 const DEFAULT_WEIGHT_FUNC = () => 1;
 
-function floydWarshall(g: Graph, weighFn: IWeightFn, edgeFn: IEdgeFn) {
-  return runFloydWarshall(g, weighFn = DEFAULT_WEIGHT_FUNC, edgeFn = (v) => g.outEdges(v));
+function floydWarshall(g: Graph, weightFn: IWeightFn, edgeFn?: IEdgeFn) {
+  return runFloydWarshall(g, weightFn = DEFAULT_WEIGHT_FUNC, edgeFn = (v) => g.outEdges(v));
 }
 
-function runFloydWarshall(g: Graph, weighFn: IWeightFn, edgeFn: IEdgeFn) {
+function runFloydWarshall(g: Graph, weightFn: IWeightFn, edgeFn: IEdgeFn) {
   const results: IResult = {};
   const nodes = g.nodes();
 
@@ -32,7 +32,7 @@ function runFloydWarshall(g: Graph, weighFn: IWeightFn, edgeFn: IEdgeFn) {
     if (res !== undefined) {
       res.forEach((edge) => {
         const w = edge.v === v ? edge.w : edge.v;
-        const d = weighFn(edge);
+        const d = weightFn(edge);
         results[v][w] = { distance: d, predecessor: v };
       });
     }

@@ -49,25 +49,25 @@ function runDijkstra(g: Graph, source: string,
       wEntry.predecessor = v;
       pq.decrease(w, distance);
     }
-
-    g.nodes().forEach((v2) => {
-      const distance2 = v2 === source ? 0 : Number.POSITIVE_INFINITY;
-      results[v2] = { distance: distance2 };
-      pq.add(v2, distance2);
-    });
-
-    while (pq.size() > 0) {
-      v = pq.removeMin() as string;
-      vEntry = results[v];
-      if (vEntry.distance === Number.POSITIVE_INFINITY) {
-        break;
-      }
-      const res = edgeFn(v);
-      if (res !== undefined) {
-        res.forEach(updateNeighbors);
-      }
-    }
   };
+
+  g.nodes().forEach((v2) => {
+    const distance2 = v2 === source ? 0 : Number.POSITIVE_INFINITY;
+    results[v2] = { distance: distance2 };
+    pq.add(v2, distance2);
+  });
+
+  while (pq.size() > 0) {
+    v = pq.removeMin() as string;
+    vEntry = results[v];
+    if (vEntry.distance === Number.POSITIVE_INFINITY) {
+      break;
+    }
+    const res = edgeFn(v);
+    if (res !== undefined) {
+      res.forEach(updateNeighbors);
+    }
+  }
 
   return results;
 }

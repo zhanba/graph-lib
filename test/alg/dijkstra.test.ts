@@ -1,6 +1,7 @@
 import { Graph, IEdgeObj } from "../../src/graph";
 import { dijkstra, dijkstraAll } from "../../src/alg/dijkstra";
-import * as allShortestPathsTest from "./all-shortest-paths.test"
+import { weightFn } from "./util";
+import * as allShortestPathsTest from "./all-shortest-paths";
 
 describe("alg.dijkstra", function() {
   it("assigns distance 0 for the source node", function() {
@@ -95,7 +96,3 @@ describe("alg.dijkstraAll", function() {
     expect(function() { dijkstraAll(g, weightFn(g)); }).toThrow();
   });
 });
-
-function weightFn(g: Graph) {
-  return (e: IEdgeObj) => Number(g.edge(e)) // cast type for test??
-}

@@ -1,4 +1,5 @@
-import { Graph } from "../../src/graph";
+import { Graph, IEdgeObj } from "../../src/graph";
+import { weightFn } from "./util";
 
 function tests(sp) {
   describe("allShortestPaths", function() {
@@ -114,12 +115,6 @@ function tests(sp) {
       });
     });
   });
-}
-
-function weightFn(g: Graph) {
-  return function(e) {
-    return g.edge(e);
-  };
 }
 
 export { tests }
