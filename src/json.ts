@@ -33,7 +33,7 @@ function write(g: Graph): IJsonObj {
       directed: g.directed,
       multigraph: g.multigraph,
     },
-    value: typeof g.graph === 'object' ? Object.assign({}, g.graph()) : g.graph()
+    value: typeof g.graph === "object" ? Object.assign({}, g.graph()) : g.graph(),
   };
 
   return json;

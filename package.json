@@ -7,7 +7,8 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc",
-    "lint": "",
+    "lint": "tslint **/*.ts",
+    "lint:fix": "tslint --project tsconfig.json --fix --format codeFrame",
     "test": "jest",
     "ci": "jest && cat ./coverage/lcov.info | coveralls"
   },

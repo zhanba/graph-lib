@@ -17,8 +17,8 @@ function tarjan(g: Graph): string[][] {
 
   function dfs(v: string) {
     const entry = visited[v] = {
-      index: index++,
       lowLink: index,
+      index: index++,
       onStack: true,
     };
     stack.push(v);

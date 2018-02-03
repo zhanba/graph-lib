@@ -1,9 +1,10 @@
 import * as _ from "lodash";
-import { Graph } from "../../src/graph";
 import { prim } from "../../src/alg/prim";
+import { Graph } from "../../src/graph";
+import { weightFn } from "./util";
 
-describe("alg.prim", function() {
-  it("returns an empty graph for an empty input", function() {
+describe("alg.prim", () => {
+  it("returns an empty graph for an empty input", () => {
     const source = new Graph();
 
     const g = prim(source, weightFn(source));
@@ -11,7 +12,7 @@ describe("alg.prim", function() {
     expect(g.edgeCount()).toBe(0);
   });
 
-  it("returns a single node graph for a graph with a single node", function() {
+  it("returns a single node graph for a graph with a single node", () => {
     const source = new Graph();
     source.setNode("a");
 
@@ -20,7 +21,7 @@ describe("alg.prim", function() {
     expect(g.edgeCount()).toEqual(0);
   });
 
-  it("returns a deterministic result given an optimal solution", function() {
+  it("returns a deterministic result given an optimal solution", () => {
     const source = new Graph();
     source.setEdge("a", "b",  1);
     source.setEdge("b", "c",  2);
@@ -39,17 +40,11 @@ describe("alg.prim", function() {
     expect(_.sortBy(g.neighbors("e"))).toEqual(["d"]);
   });
 
-  it("throws an Error for unconnected graphs", function() {
+  it("throws an Error for unconnected graphs", () => {
     const source = new Graph();
     source.setNode("a");
     source.setNode("b");
 
-    expect(function() { prim(source, weightFn(source)); }).toThrow();
+    expect(() => { prim(source, weightFn(source)); }).toThrow();
   });
 });
-
-function weightFn(g) {
-  return function(edge) {
-    return g.edge(edge);
-  };
-}

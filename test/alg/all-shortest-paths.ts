@@ -2,14 +2,14 @@ import { Graph, IEdgeObj } from "../../src/graph";
 import { weightFn } from "./util";
 
 function tests(sp) {
-  describe("allShortestPaths", function() {
-    it("returns 0 for the node itself", function() {
+  describe("allShortestPaths", () => {
+    it("returns 0 for the node itself", () => {
       const g = new Graph();
       g.setNode("a");
       expect(sp(g)).toEqual({ a: { a: { distance: 0 } }});
     });
 
-    it("returns the distance and path from all nodes to other nodes", function() {
+    it("returns the distance and path from all nodes to other nodes", () => {
       const g = new Graph();
       g.setEdge("a", "b");
       g.setEdge("b", "c");
@@ -17,22 +17,22 @@ function tests(sp) {
         a: {
           a: { distance: 0 },
           b: { distance: 1, predecessor: "a" },
-          c: { distance: 2, predecessor: "b" }
+          c: { distance: 2, predecessor: "b" },
         },
         b: {
           a: { distance: Number.POSITIVE_INFINITY },
           b: { distance: 0 },
-          c: { distance: 1, predecessor: "b" }
+          c: { distance: 1, predecessor: "b" },
         },
         c: {
           a: { distance: Number.POSITIVE_INFINITY },
           b: { distance: Number.POSITIVE_INFINITY },
-          c: { distance: 0 }
-        }
+          c: { distance: 0 },
+        },
       });
     });
 
-    it("uses an optionally supplied weight function", function() {
+    it("uses an optionally supplied weight function", () => {
       const g = new Graph();
       g.setEdge("a", "b", 2);
       g.setEdge("b", "c", 3);
@@ -41,46 +41,46 @@ function tests(sp) {
         a: {
           a: { distance: 0 },
           b: { distance: 2, predecessor: "a" },
-          c: { distance: 5, predecessor: "b" }
+          c: { distance: 5, predecessor: "b" },
         },
         b: {
           a: { distance: Number.POSITIVE_INFINITY },
           b: { distance: 0 },
-          c: { distance: 3, predecessor: "b" }
+          c: { distance: 3, predecessor: "b" },
         },
         c: {
           a: { distance: Number.POSITIVE_INFINITY },
           b: { distance: Number.POSITIVE_INFINITY },
-          c: { distance: 0 }
-        }
+          c: { distance: 0 },
+        },
       });
     });
 
-    it("uses an optionally supplied incident function", function() {
+    it("uses an optionally supplied incident function", () => {
       const g = new Graph();
       g.setEdge("a", "b");
       g.setEdge("b", "c");
 
-      expect(sp(g, undefined, function(v) { return g.inEdges(v); })).toEqual({
+      expect(sp(g, undefined, (v) => g.inEdges(v))).toEqual({
         a: {
           a: { distance: 0 },
           b: { distance: Number.POSITIVE_INFINITY },
-          c: { distance: Number.POSITIVE_INFINITY }
+          c: { distance: Number.POSITIVE_INFINITY },
         },
         b: {
           a: { distance: 1, predecessor: "b" },
           b: { distance: 0 },
-          c: { distance: Number.POSITIVE_INFINITY }
+          c: { distance: Number.POSITIVE_INFINITY },
         },
         c: {
           a: { distance: 2, predecessor: "b" },
           b: { distance: 1, predecessor: "c" },
-          c: { distance: 0 }
-        }
+          c: { distance: 0 },
+        },
       });
     });
 
-    it("works with undirected graphs", function() {
+    it("works with undirected graphs", () => {
       const g = new Graph({ directed: false });
       g.setEdge("a", "b", 1);
       g.setEdge("b", "c", 2);
@@ -111,10 +111,10 @@ function tests(sp) {
           b: { distance: 6, predecessor: "d" },
           c: { distance: 8, predecessor: "b" },
           d: { distance: 0 },
-        }
+        },
       });
     });
   });
 }
 
-export { tests }
+export { tests };

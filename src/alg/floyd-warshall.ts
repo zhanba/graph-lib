@@ -10,13 +10,13 @@ export interface IResult {
   };
 }
 
-const DEFAULT_WEIGHT_FUNC = () => 1;
+const DEFAULT_WEIGHT_FUNC: IWeightFn = () => 1;
 
-function floydWarshall(g: Graph, weightFn: IWeightFn, edgeFn?: IEdgeFn) {
-  return runFloydWarshall(g, weightFn = DEFAULT_WEIGHT_FUNC, edgeFn = (v) => g.outEdges(v));
+function floydWarshall(g: Graph, weightFn?: IWeightFn, edgeFn?: IEdgeFn) {
+  return runFloydWarshall(g, weightFn, edgeFn);
 }
 
-function runFloydWarshall(g: Graph, weightFn: IWeightFn, edgeFn: IEdgeFn) {
+function runFloydWarshall(g: Graph, weightFn = DEFAULT_WEIGHT_FUNC, edgeFn = (v: string) => g.outEdges(v)) {
   const results: IResult = {};
   const nodes = g.nodes();
 
