@@ -88,8 +88,8 @@ function read(jsonObj: IJsonObj): Graph {
 }
 
 const json = {
-  write,
   read,
+  write,
 };
 
 export { json };

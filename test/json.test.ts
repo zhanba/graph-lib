@@ -1,5 +1,5 @@
 import { Graph } from "../src/graph";
-import { read, write } from "../src/json";
+import { json } from "../src/json";
 
 describe("json", () => {
   it("preserves the graph options", () => {
@@ -57,6 +57,6 @@ describe("json", () => {
   });
 });
 
-function rw(g: Graph) {
-  return read(write(g));
+function rw(g: Graph): Graph {
+  return json.read(json.write(g));
 }
