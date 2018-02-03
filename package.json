@@ -1,6 +1,6 @@
 {
   "name": "graph-lib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A graph lib based on graphlib and write in typescript",
   "main": "dist/graphlib.js",
   "module": "dist/graphlib.es.js",
