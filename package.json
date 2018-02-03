@@ -1,5 +1,5 @@
 {
-  "name": "graph-lib",
+  "name": "graph-tools",
   "version": "0.1.1",
   "description": "A graph lib based on graphlib and write in typescript",
   "main": "dist/graphtools.umd.js",
