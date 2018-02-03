@@ -6,7 +6,7 @@ const typescript = require('rollup-plugin-typescript2')
 
 const pkg = require('./package.json')
 
-const libraryName = 'graphlib'
+const libraryName = 'graphtools'
 
 export default {
   input: `src/index.ts`,

@@ -2,7 +2,7 @@
   "name": "graph-lib",
   "version": "0.1.1",
   "description": "A graph lib based on graphlib and write in typescript",
-  "main": "dist/graphlib.js",
+  "main": "dist/graphtools.umd.js",
   "module": "dist/graphlib.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
