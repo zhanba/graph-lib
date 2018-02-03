@@ -1,3 +1,5 @@
-const Graph = null;
-import version from "./version";
-export default {Graph, version};
+export { alg } from "./alg/index";
+export { json } from "./json";
+
+import { Graph } from "./graph";
+export default Graph;

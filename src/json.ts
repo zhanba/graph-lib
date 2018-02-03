@@ -25,7 +25,7 @@ export interface IJsonObj {
 }
 
 function write(g: Graph): IJsonObj {
-  const json: IJsonObj = {
+  const jsonObj: IJsonObj = {
     edges: writeEdges(g),
     nodes: writeNodes(g),
     options: {
@@ -36,7 +36,7 @@ function write(g: Graph): IJsonObj {
     value: typeof g.graph === "object" ? Object.assign({}, g.graph()) : g.graph(),
   };
 
-  return json;
+  return jsonObj;
 }
 
 function writeNodes(g: Graph): INodeObj[] {
@@ -73,21 +73,23 @@ function writeEdges(g: Graph): IEdgeObj[] {
   });
 }
 
-function read(json: IJsonObj): Graph {
-  const g = new Graph(json.options).setGraph(json.value);
-  json.nodes.forEach((entry) => {
+function read(jsonObj: IJsonObj): Graph {
+  const g = new Graph(jsonObj.options).setGraph(jsonObj.value);
+  jsonObj.nodes.forEach((entry) => {
     g.setNode(entry.v, entry.value);
     if (entry.parent) {
       g.setParent(entry.v, entry.parent);
     }
   });
-  json.edges.forEach((entry) => {
+  jsonObj.edges.forEach((entry) => {
     g.setEdge({ v: entry.v, w: entry.w, name: entry.name }, entry.value);
   });
   return g;
 }
 
-export {
+const json = {
   write,
   read,
 };
+
+export { json };

@@ -2,22 +2,42 @@
   "name": "graph-lib",
   "version": "0.1.0",
   "description": "A graph lib based on graphlib and write in typescript",
-  "main": "dist/index.js",
+  "main": "dist/graphlib.js",
+  "module": "dist/graphlib.es.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "prebuild": "rimraf dist",
     "prepare": "npm run build",
-    "build": "tsc",
+    "build": "tsc && rollup -c rollup.config.js",
     "lint": "tslint **/*.ts",
     "lint:fix": "tslint --project tsconfig.json --fix --format codeFrame",
     "test": "jest",
     "ci": "jest && cat ./coverage/lcov.info | coveralls"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zhanba/graph-lib.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zhanba/graph-lib/issues"
+  },
+  "homepage": "https://github.com/zhanba/graph-lib/wiki",
+  "keywords": [
+    "graph"
+  ],
   "author": "ryannz",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^22.0.1",
     "coveralls": "^3.0.0",
     "jest": "^22.0.6",
+    "lodash.camelcase": "^4.3.0",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.55.3",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.11.0",
     "ts-jest": "^22.0.1",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1"
