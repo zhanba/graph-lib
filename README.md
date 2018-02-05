@@ -11,7 +11,7 @@ Based on [graphlib](https://github.com/dagrejs/graphlib), written in TypeScript.
 npm install graph-tools
 ```
 
-```
+```js
 const { Graph, json, alg } = require('graph-tools')
 
 const g = new Graph()
