@@ -1,6 +1,6 @@
 {
   "name": "graph-tools",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A graph lib based on graphlib and write in typescript",
   "main": "dist/graphtools.umd.js",
   "module": "dist/graphtools.es.js",
