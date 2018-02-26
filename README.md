@@ -1,4 +1,4 @@
-# graph-lib
+# graph-tools
 
 Based on [graphlib](https://github.com/dagrejs/graphlib), written in TypeScript.
 

@@ -72,7 +72,7 @@ function runDijkstra(g: Graph, source: string,
   return results;
 }
 
-function dijkstraAll(g: Graph, weightFn: IWeightFn, edgeFn?: IEdgeFn): IDijkstraAllResult {
+function dijkstraAll(g: Graph, weightFn?: IWeightFn, edgeFn?: IEdgeFn): IDijkstraAllResult {
   const res: IDijkstraAllResult = {};
   g.nodes().forEach((v) => {
     res[v] = dijkstra(g, v, weightFn, edgeFn);

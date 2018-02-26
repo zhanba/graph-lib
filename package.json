@@ -14,7 +14,8 @@
     "lint": "tslint **/*.ts",
     "lint:fix": "tslint --project tsconfig.json --fix --format codeFrame",
     "test": "jest",
-    "ci": "jest && cat ./coverage/lcov.info | coveralls"
+    "ci": "jest && cat ./coverage/lcov.info | coveralls",
+    "bench": "ts-node src/bench.ts"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,11 @@
   "author": "ryannz",
   "license": "MIT",
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
     "@types/jest": "^22.0.1",
+    "@types/seedrandom": "^2.4.27",
+    "@types/sprintf": "^0.1.0",
+    "benchmark": "^1.0.0",
     "coveralls": "^3.0.0",
     "dts-bundle-generator": "^0.6.1",
     "jest": "^22.0.6",
@@ -41,7 +46,10 @@
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-typescript2": "^0.11.0",
+    "seedrandom": "^2.4.3",
+    "sprintf": "^0.1.5",
     "ts-jest": "^22.0.1",
+    "ts-node": "^5.0.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1"
   },
